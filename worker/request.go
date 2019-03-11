@@ -1,30 +1,30 @@
 package worker
 
 import (
-  "github.com/r00tjimmy/high-performance-net-handler/utils"
+  "github.com/r00tjimmy/MonRabit/utils"
   //"fmt"
   "net/http"
-  "github.com/r00tjimmy/high-performance-net-handler/handler"
+  "github.com/r00tjimmy/MonRabit/handler"
 )
 
 type Request struct {
   job           Job
-  handle_type   string
+  handleType   string
 }
 
 
 // make the jobs, len is max_job
-func NewRequest(max_job int, handle_type string) (*Request)  {
-  job := Job{pay_load:  PayLoad(max_job)}
-  return &Request{job:  job, handle_type: handle_type}
+func NewRequest(maxJob int, handleType string) (*Request)  {
+  job := Job{payLoad:  PayLoad(maxJob)}
+  return &Request{job:  job, handleType: handleType}
 }
 
 
 /**
 // set the job to job_queue, just for test request
 func (r *Request) Run() {
-  for i := 1; i < int(r.job.pay_load); i++ {
-    job := Job{ pay_load:  Payload(i) }
+  for i := 1; i < int(r.job.payLoad); i++ {
+    job := Job{ payLoad:  Payload(i) }
     fmt.Println("put ---", i, "--- job into job_queue, job_queue only get one job every time ")
     Job_queue <- job
   }
@@ -37,15 +37,15 @@ func (r *Request) Run() {
 // HTTP listening
 // TODO: get job from frontend
 func (r *Request) Run() {
-  //r.handle_type = "http"
+  //r.handleType = "http"
   r.SetHandle()
 }
 
 
 func (r *Request) SetHandle() {
-  if r.handle_type == "http" {
-    http.HandleFunc("/hpnh", HttpHandle)
-    http.HandleFunc("/hpnh_upload", HttpUpload)
+  if r.handleType == "http" {
+    http.HandleFunc("/monrabit", HttpHandle)
+    http.HandleFunc("/monrabit_upload", HttpUpload)
     err := http.ListenAndServe(":8089", nil)
     utils.CheckErr(err)
   }
@@ -64,7 +64,7 @@ func HttpHandle(w http.ResponseWriter, r *http.Request) {
   utils.DebugLog("[JOB] --------- HTTP handle start -------- ")
   // if no error
   get_job := 1
-  job := Job{pay_load: PayLoad(get_job) }
+  job := Job{payLoad: PayLoad(get_job) }
   utils.DebugLog("put --- 1 --- job into job_queue, job_queue only get one job every time ")
   Job_queue <- job
 

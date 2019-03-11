@@ -22,22 +22,24 @@ go get github.com/r00tjimmy/MonRabit
 package main
 
 import (
-  "github.com/r00tjimmy/MonRabit"
+  "github.com/r00tjimmy/MonRabit/worker"
 )
 
 var (
-  max_worker = 3
-  max_job = 10
-  handle_type = "http"   // set network protocol type
+  maxWorker = 3
+  maxJob = 10
+  handleType = "http"   // set network protocol type
 )
 
 func main() {
+  // make the worker at first
   // make the worker, listening work_pool channel
-  dispatcher := worker.NewDispatcher(max_worker, handle_type)
+  dispatcher := worker.NewDispatcher(maxWorker, handleType)
   dispatcher.Run()
 
+  // make the job for test sample
   // get requet
-  request := worker.NewRequest(max_job, handle_type)
+  request := worker.NewRequest(maxJob, handleType)
   request.Run()
 
 }
@@ -55,7 +57,7 @@ cd examples
 # just build
 make build
 
-after build, you can run with ./hpnh in current folder
+after build, you can run with ./monrabit in current folder
 
 # just test
 make gotest
@@ -72,7 +74,7 @@ hardware:        4C 16G
 
 OS:                    CentOS 7.4 x64
 
-comapre  Apache/2.4.12 with  hpnh  use ab tool. detail can see the report files, the performance reports files in folder preformance_reports
+comapre  Apache/2.4.12 with  MonRabit  use ab tool. detail can see the report files, the performance reports files in folder preformance_reports
 
 
 

@@ -1,11 +1,11 @@
 build:
-	go build && mv examples	 hpnh
+	go build && mv examples	MonRabit
 
 gotest:
 	cd ../test &&  go test && cd ../examples
 
 run:
-	./hpnh	
+	./MonRabit
 
 all: build run
 

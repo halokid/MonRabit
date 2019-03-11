@@ -28,7 +28,7 @@ func TestHttpUpload(t *testing.T) {
   // send form
   content_type := writer.FormDataContentType()
   writer.Close()
-  _, err = http.Post("http://127.0.0.1:8089/hpnh_upload", content_type, buf)
+  _, err = http.Post("http://127.0.0.1:8089/monrabit_upload", content_type, buf)
   utils.CheckErr(err)
 }
 

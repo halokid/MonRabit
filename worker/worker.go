@@ -2,11 +2,11 @@ package worker
 
 import (
   "fmt"
-  "github.com/r00tjimmy/high-performance-net-handler/handler"
+  "github.com/r00tjimmy/MonRabit/handler"
 )
 
 type Job struct {
-  pay_load    PayLoad
+  payLoad    PayLoad
 }
 
 type PayLoad int
@@ -57,7 +57,7 @@ func (w *Worker) Start() {
       select {
       case job := <- w.job_channel:
         if w.handle_type == "http" {
-          if err := job.pay_load.HttpDo(); err != nil {
+          if err := job.payLoad.HttpDo(); err != nil {
             fmt.Println("[ERROR]---- payload Do() ", err.Error())
           }
         }

@@ -7,7 +7,7 @@ var (
   Version     =   "1.0"
   DebugFlag  =   true
   LogFlag    =   false
-  LogFile    =   "../logs/hpnh.log"
+  LogFile    =   "../logs/monrabit.log"
 )
 
 

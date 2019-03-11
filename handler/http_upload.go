@@ -2,7 +2,7 @@ package handler
 
 import (
   "net/http"
-  "github.com/r00tjimmy/high-performance-net-handler/utils"
+  "github.com/r00tjimmy/MonRabit/utils"
   "os"
   "io"
   "fmt"
@@ -11,17 +11,17 @@ import (
 )
 
 func HttpUploadHandle(w http.ResponseWriter, r *http.Request) {
-  form_file, header, err := r.FormFile("uploadfile")
+  formFile, header, err := r.FormFile("uploadfile")
   utils.CheckErr(err)
-  defer form_file.Close()
+  defer formFile.Close()
 
   //create save file
-  dest_file, err := os.Create(utils.HttpUploadPath + "/" + header.Filename)
+  destFile, err := os.Create(utils.HttpUploadPath + "/" + header.Filename)
   utils.CheckErr(err)
-  defer dest_file.Close()
+  defer destFile.Close()
 
   // save file
-  _, err = io.Copy(dest_file, form_file)
+  _, err = io.Copy(destFile, formFile)
   utils.CheckErr(err)
 
   fmt.Fprintf(w, "upload success")
@@ -34,25 +34,25 @@ upload file to data-time folder
  */
 func HttpUploadDateTimeHandle(w http.ResponseWriter, r *http.Request) {
   // check path
-  exists, folder_path := DateTimeFolderExists()
+  exists, folderPath := DateTimeFolderExists()
   if !exists {
     // folder not exists, create
-    err := CreateDataFolder(folder_path)
+    err := CreateDataFolder(folderPath)
     utils.CheckErr(err)
   }
 
   // upload file
-  form_file, header, err := r.FormFile("uploadfile")
+  formFile, header, err := r.FormFile("uploadfile")
   utils.CheckErr(err)
-  defer form_file.Close()
+  defer formFile.Close()
 
   //create save file
-  dest_file, err := os.Create(utils.HttpUploadPath + "/" + folder_path + "/" + header.Filename)
+  destFile, err := os.Create(utils.HttpUploadPath + "/" + folderPath + "/" + header.Filename)
   utils.CheckErr(err)
-  defer dest_file.Close()
+  defer destFile.Close()
 
   // save file
-  _, err = io.Copy(dest_file, form_file)
+  _, err = io.Copy(destFile, formFile)
   utils.CheckErr(err)
 
   fmt.Fprintf(w, "upload success")
@@ -61,16 +61,16 @@ func HttpUploadDateTimeHandle(w http.ResponseWriter, r *http.Request) {
 
 
 
-func CreateDataFolder(folder_path string) error  {
-  date_folder := strings.Split(folder_path, "/")[0]
-  time_folder := strings.Split(folder_path, "/")[1]
+func CreateDataFolder(folderPath string) error  {
+  dateFolder := strings.Split(folderPath, "/")[0]
+  timeFolder := strings.Split(folderPath, "/")[1]
 
-  if !utils.PathExists(utils.HttpUploadPath + "/" + date_folder) {
-    err := os.Mkdir(utils.HttpUploadPath + "/" + date_folder, os.ModePerm)
+  if !utils.PathExists(utils.HttpUploadPath + "/" + dateFolder) {
+    err := os.Mkdir(utils.HttpUploadPath + "/" + dateFolder, os.ModePerm)
     utils.CheckErr(err)
   }
 
-  err := os.Mkdir(utils.HttpUploadPath + "/" + date_folder + "/" + time_folder, os.ModePerm)
+  err := os.Mkdir(utils.HttpUploadPath + "/" + dateFolder + "/" + timeFolder, os.ModePerm)
   utils.CheckErr(err)
   return  err
 }
@@ -89,25 +89,25 @@ folder display like:
 3 directories, 8 files
  */
 func DateTimeFolderExists() (bool, string) {
-  date_time := time.Now().String()
+  dateTime := time.Now().String()
   //fmt.Println(date_time)
 
-  folder_sli := strings.Split(date_time, " ")
+  folderSli := strings.Split(dateTime, " ")
   //fmt.Println(folder_sli)
 
-  date_folder := folder_sli[0]
+  dateFolder := folderSli[0]
   //fmt.Println(date_folder)
 
-  time_folder := strings.Split(folder_sli[1], ":")[0] + "-" + strings.Split(folder_sli[1], ":")[1]
+  timeFolder := strings.Split(folderSli[1], ":")[0] + "-" + strings.Split(folderSli[1], ":")[1]
   //fmt.Println(time_folder)
 
-  folder_path := date_folder + "/" + time_folder
-  if utils.PathExists( utils.HttpUploadPath + "/" + date_folder + "/" + time_folder) {
+  folderPath := dateFolder + "/" + timeFolder
+  if utils.PathExists( utils.HttpUploadPath + "/" + dateFolder + "/" + timeFolder) {
     fmt.Println("folder exists")
-    return true, folder_path
+    return true, folderPath
   } else {
     fmt.Println("folder not exists")
-    return false, folder_path
+    return false, folderPath
   }
 }
 
