@@ -26,25 +26,25 @@ func (p PayLoad) HttpDo() (err error) {
 }
 
 type Worker struct {
-  work_pool       chan chan Job
-  job_channel     chan Job
+  workPool       chan chan Job
+  jobChannel     chan Job
   quit            chan bool
-  handle_type     string
+  handleType     string
 }
 
 
 // set the job queue for request, one job every time
-var Job_queue chan Job
+var JobQueue chan Job
 func init() {
-  Job_queue = make(chan Job, 1)
+  JobQueue = make(chan Job, 1)
 }
 
-func NewWorker(work_pool chan chan Job, handle_type string) Worker {
+func NewWorker(workPool chan chan Job, handleType string) Worker {
   return Worker{
-    work_pool:      work_pool,
-    job_channel:    make(chan Job),
-    quit:           make(chan bool),
-    handle_type:    handle_type,
+    workPool:      workPool,
+    jobChannel:    make(chan Job),
+    quit:          make(chan bool),
+    handleType:    handleType,
   }
 }
 
@@ -52,11 +52,11 @@ func NewWorker(work_pool chan chan Job, handle_type string) Worker {
 func (w *Worker) Start() {
   go func() {
     for {
-      // use job_channel put in work_pool
-      w.work_pool <- w.job_channel
+      // use job_channel put in workPool
+      w.workPool <- w.jobChannel
       select {
-      case job := <- w.job_channel:
-        if w.handle_type == "http" {
+      case job := <- w.jobChannel:
+        if w.handleType == "http" {
           if err := job.payLoad.HttpDo(); err != nil {
             fmt.Println("[ERROR]---- payload Do() ", err.Error())
           }
@@ -68,16 +68,6 @@ func (w *Worker) Start() {
     }
   }()
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

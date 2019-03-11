@@ -14,7 +14,7 @@ type Request struct {
 
 
 // make the jobs, len is max_job
-func NewRequest(maxJob int, handleType string) (*Request)  {
+func NewRequest(maxJob int, handleType string) *Request {
   job := Job{payLoad:  PayLoad(maxJob)}
   return &Request{job:  job, handleType: handleType}
 }
@@ -63,10 +63,10 @@ func HttpHandle(w http.ResponseWriter, r *http.Request) {
   utils.DebugLog("------------------------- [JOB START] -------------------------")
   utils.DebugLog("[JOB] --------- HTTP handle start -------- ")
   // if no error
-  get_job := 1
-  job := Job{payLoad: PayLoad(get_job) }
+  getJob := 1
+  job := Job{payLoad: PayLoad(getJob) }
   utils.DebugLog("put --- 1 --- job into job_queue, job_queue only get one job every time ")
-  Job_queue <- job
+  JobQueue <- job
 
   //fmt.Fprintf(w, "handle http request")
   handler.HttpFrontSample(w, r)

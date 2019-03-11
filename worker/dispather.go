@@ -20,9 +20,11 @@ func (d *Dispatcher) Run() {
   fmt.Println("make ", d.len, " workers for process jobs")
   for i := 0; i < d.len; i++ {
     worker := NewWorker(d.workPool, d.handleType)
+    // when work start, the jobChannel is None
     worker.Start()
   }
 
+  // waitting for jobQueue, jobChannel is the item of jobQueue
   go d.dispatcher()
 }
 
@@ -31,10 +33,10 @@ func (d *Dispatcher) Run() {
 func (d *Dispatcher) dispatcher() {
   for {
     select {
-    case job := <- Job_queue:
+    case job := <- JobQueue:
       go func(job Job) {
         //job_channel := <- d.work_pool
-        // todo: block until d.work_pool has something
+        // todo: block until d.workPool has something
         jobChannel := <- d.workPool
         //_ := <- d.work_pool
 
