@@ -2,6 +2,6 @@
 [comm]
 DebugFlag = true
 LogFlag = false
-LogFile = "../logs/monrabit.log"
-HttpUploadPath = "../uploads"
+LogFile = ../logs/monrabit.log
+HttpUploadPath = ../uploads
 

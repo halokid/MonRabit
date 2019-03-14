@@ -54,6 +54,9 @@ func main() {
 
 cd examples
 
+# change config file
+mv config.ini.sample config.ini
+
 # just build
 make build
 
