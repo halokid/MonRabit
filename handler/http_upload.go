@@ -113,10 +113,3 @@ func DateTimeFolderExists() (bool, string) {
 
 
 
-
-
-
-
-
-
-
