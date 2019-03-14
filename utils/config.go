@@ -1,3 +1,6 @@
+/**
+此文件已弃用, this file is no use!!!
+ */
 package utils
 
 import "fmt"
