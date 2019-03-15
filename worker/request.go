@@ -48,6 +48,8 @@ func (r *Request) SetHandle() {
     http.HandleFunc("/monrabit_upload", HttpUpload)
     err := http.ListenAndServe(":8089", nil)
     utils.CheckErr(err)
+  } else if r.handleType == "rpc" {
+
   }
 }
 
