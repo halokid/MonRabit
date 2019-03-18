@@ -3,5 +3,6 @@
 DebugFlag = true
 LogFlag = false
 LogFile = ../logs/monrabit.log
+HttpDtUploadPath = ../uploads_datetime
 HttpUploadPath = ../uploads
 

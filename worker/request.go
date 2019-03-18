@@ -45,7 +45,8 @@ func (r *Request) Run() {
 func (r *Request) SetHandle() {
   if r.handleType == "http" {
     http.HandleFunc("/monrabit", HttpHandle)
-    http.HandleFunc("/monrabit_upload", HttpUpload)
+    http.HandleFunc("/datetime_upload", HttpDtUpload)
+    http.HandleFunc("/fronend_upload", HttpFrontUpload)
     err := http.ListenAndServe(":8089", nil)
     utils.CheckErr(err)
   } else if r.handleType == "rpc" {
@@ -77,11 +78,16 @@ func HttpHandle(w http.ResponseWriter, r *http.Request) {
 
 
 
-// http upload frontend
-func HttpUpload(w http.ResponseWriter, r *http.Request) {
-  utils.DebugLog("[JOB START] HttpUpload -------------------------")
-  //handler.HttpUploadHandle(w, r)
+// http upload datetime
+func HttpDtUpload(w http.ResponseWriter, r *http.Request) {
+  utils.DebugLog("[JOB START] HttpDtUpload -------------------------")
   handler.HttpUploadDateTimeHandle(w, r)
+}
+
+// http upload frontend
+func HttpFrontUpload(w http.ResponseWriter, r *http.Request) {
+  utils.DebugLog("[JOB START] HttpUpFrontload -------------------------")
+  handler.HttpUploadHandle(w, r)
 }
 
 
