@@ -7,9 +7,10 @@ import (
 )
 
 var Cfg *goconfig.ConfigFile
+
 func init()  {
-  //var err error
-  cfg, err := goconfig.LoadConfigFile("config.ini")
+  goPath := os.Getenv("GOPATH")
+  cfg, err := goconfig.LoadConfigFile(goPath + `\src\github.com\r00tjimmy\MonRabit\utils\config.ini`)
   CheckErr(err, "no config.ini file...")
   Cfg = cfg
 }
