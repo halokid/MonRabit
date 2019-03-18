@@ -22,19 +22,26 @@ func init()  {
 }
 
 func HttpUploadHandle(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprintf(w, "acting upload ....")
   formFile, header, err := r.FormFile("uploadfile")
-  utils.CheckErr(err)
+  if err != nil {
+    fmt.Fprintf(w, "from file name ERROR..")
+  }
   defer formFile.Close()
 
   //create save file
   //httpUploadPath, err := utils.Cfg.GetValue("comm", "HttpUploadPath")
   destFile, err := os.Create(HttpUploadPath + "/" + header.Filename)
-  utils.CheckErr(err)
+  if err != nil {
+    fmt.Fprintf(w, "destFile ERROR..")
+  }
   defer destFile.Close()
 
   // save file
   _, err = io.Copy(destFile, formFile)
-  utils.CheckErr(err)
+  if err != nil {
+    fmt.Fprintf(w, "copy file ERROR..")
+  }
 
   fmt.Fprintf(w, "upload success")
 }

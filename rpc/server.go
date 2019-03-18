@@ -63,8 +63,23 @@ func (s *Server) Run() {
 
     // packing data return to client
     respRPCData := RPCData{rpcData.Name, outArgs}
+    respBytes, err := encode(respRPCData)
+    CheckErr(err)
+
+    err = srvSession.Write(respBytes)
+    CheckErr(err)
   }
 }
+
+func (s *Server) Register(rpcName string, f interface{}) {
+  if _, ok := s.funcs[rpcName]; ok {
+    return
+  }
+  // 取得这个“字符”真正的类型， 这里的类型是一个“函数声明”
+  fVal := reflect.ValueOf(f)
+  s.funcs[rpcName] = fVal
+}
+
 
 
 
