@@ -66,7 +66,8 @@ func HttpUploadDateTimeHandle(w http.ResponseWriter, r *http.Request) {
   _, err = io.Copy(destFile, formFile)
   utils.CheckErr(err)
 
-  fmt.Fprintf(w, "upload success")
+  //fmt.Fprintf(w, "upload success")
+  fmt.Fprintf(w, string(HttpUploadPath + "/" + folderPath + "/" + header.Filename))
 
 }
 
