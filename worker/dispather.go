@@ -17,7 +17,7 @@ func (d *Dispatcher) Run() {
   // make three worker for process
   // todo:  use the same work_pool, so can limit in 3 process at the same time
   // todo: this will use job_channel put in work_pool first
-  fmt.Println("make ", d.len, " workers for process jobs")
+  fmt.Println("make", d.len, "workers for process jobs, http://localhost:8089 or rpc")
   for i := 0; i < d.len; i++ {
     worker := NewWorker(d.workPool, d.handleType)
     // when work start, the jobChannel is None

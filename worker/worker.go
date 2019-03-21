@@ -36,7 +36,9 @@ type Worker struct {
 // set the job queue for request, one job every time
 var JobQueue chan Job
 func init() {
-  JobQueue = make(chan Job, 1)
+ // 每一个job定义一个队列位置， 初始化JobQueue的长度
+ // init JobQueue len
+ JobQueue = make(chan Job, 1)
 }
 
 func NewWorker(workPool chan chan Job, handleType string) Worker {

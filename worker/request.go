@@ -4,7 +4,6 @@ import (
   "github.com/r00tjimmy/MonRabit/utils"
   //"fmt"
   "net/http"
-  "github.com/r00tjimmy/MonRabit/handler"
 )
 
 type Request struct {
@@ -44,9 +43,9 @@ func (r *Request) Run() {
 
 func (r *Request) SetHandle() {
   if r.handleType == "http" {
-    http.HandleFunc("/monrabit", HttpHandle)
-    http.HandleFunc("/datetime_upload", HttpDtUpload)
-    http.HandleFunc("/fronend_upload", HttpFrontUpload)
+    for _, val := range httpRouter {
+      http.HandleFunc(val.RoutePath, val.Handler)
+    }
     err := http.ListenAndServe(":8089", nil)
     utils.CheckErr(err)
   } else if r.handleType == "rpc" {
@@ -54,41 +53,6 @@ func (r *Request) SetHandle() {
   }
 }
 
-
-// decorator for handler
-//var HandleDecorator =
-
-
-// set response to  HTTP
-// TODO: handler for web frontend
-func HttpHandle(w http.ResponseWriter, r *http.Request) {
-  //fmt.Println()
-  utils.DebugLog("------------------------- [JOB START] -------------------------")
-  utils.DebugLog("[JOB] --------- HTTP handle start -------- ")
-  // if no error
-  getJob := 1
-  job := Job{payLoad: PayLoad(getJob) }
-  utils.DebugLog("put --- 1 --- job into job_queue, job_queue only get one job every time ")
-  JobQueue <- job
-
-  //fmt.Fprintf(w, "handle http request")
-  handler.HttpFrontSample(w, r)
-  utils.DebugLog("------------------------- [JOB END] -------------------------")
-}
-
-
-
-// http upload datetime
-func HttpDtUpload(w http.ResponseWriter, r *http.Request) {
-  utils.DebugLog("[JOB START] HttpDtUpload -------------------------")
-  handler.HttpUploadDateTimeHandle(w, r)
-}
-
-// http upload frontend
-func HttpFrontUpload(w http.ResponseWriter, r *http.Request) {
-  utils.DebugLog("[JOB START] HttpUpFrontload -------------------------")
-  handler.HttpUploadHandle(w, r)
-}
 
 
 
