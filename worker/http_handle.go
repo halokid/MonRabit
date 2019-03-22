@@ -1,15 +1,12 @@
 package worker
 
 import (
-  "github.com/r00tjimmy/MonRabit/handler"
+  . "github.com/r00tjimmy/MonRabit/handler"
+  "github.com/r00tjimmy/MonRabit/plugins"
   "github.com/r00tjimmy/MonRabit/utils"
   "net/http"
 )
 
-type HttpRouter struct {
-  RoutePath        string
-  Handler          func(http.ResponseWriter, *http.Request)
-}
 
 var httpRouter []HttpRouter
 
@@ -20,7 +17,9 @@ func init()  {
   httpRouterFrUpl := HttpRouter{"/frontend_upload", HttpFrontUpload}
 
   httpRouter = append(httpRouter, httpRouterSample, httpRouterDtUpl, httpRouterFrUpl)
+  httpRouter = append(httpRouter, plugins.HttpHldPlgs...)
 }
+
 
 // TODO: handler for web frontend
 func HttpHandle(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +33,7 @@ func HttpHandle(w http.ResponseWriter, r *http.Request) {
   JobQueue <- job
 
   //fmt.Fprintf(w, "handle http request")
-  handler.HttpFrontSample(w, r)
+  HttpFrontSample(w, r)
   utils.DebugLog("------------------------- [JOB END] -------------------------")
 }
 
@@ -43,13 +42,13 @@ func HttpHandle(w http.ResponseWriter, r *http.Request) {
 // http upload datetime
 func HttpDtUpload(w http.ResponseWriter, r *http.Request) {
   utils.DebugLog("[JOB START] HttpDtUpload -------------------------")
-  handler.HttpUploadDateTimeHandle(w, r)
+  HttpUploadDateTimeHandle(w, r)
 }
 
 // http upload frontend
 func HttpFrontUpload(w http.ResponseWriter, r *http.Request) {
   utils.DebugLog("[JOB START] HttpUpFrontload -------------------------")
-  handler.HttpUploadHandle(w, r)
+  HttpUploadHandle(w, r)
 }
 
 
