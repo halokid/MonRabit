@@ -17,7 +17,7 @@ func NewClient(conn net.Conn) *Client {
 }
 
 // fPtr 指向函数原型
-func (c *Client) callRPC(rpcName string, fPtr interface{}) {
+func (c *Client) CallRPC(rpcName string, fPtr interface{}) {
 
   fn := reflect.ValueOf(fPtr).Elem()
 
