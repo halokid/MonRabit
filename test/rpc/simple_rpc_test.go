@@ -2,6 +2,7 @@ package rpc
 
 import (
   "encoding/gob"
+  "fmt"
   "github.com/r00tjimmy/MonRabit/rpc"
   "net"
   "testing"
@@ -21,8 +22,47 @@ func TestRPC(t *testing.T) {
   }
   cli := rpc.NewClient(conn)
 
+  /**
+  todo: RPC的流程为 客户端做一个函数的声明， 其中参数的的数据是在客户端声明好的， 函数的参数类型 要和 服务端的参数类型一样
+  todo: 然后通过tcp协议传过去服务端执行， 服务端执行完之后， 再把执行结果返回给客户端
+   */
   var query func(int) (User, error)
-  // CallRPC的作用就是把服务端的 queryUser 这个函数的实现， 重写进客户端的 query 这个函数的实现
-  // 等于是把 服务端的函数代码 替换了 客户端的函数代码， 所以本身实际执行这个函数的逻辑是在客户端的
   cli.CallRPC("queryUser", &query)
+
+  u, err := query(1)
+  if err != nil {
+    t.Fatal(err)
+  }
+  fmt.Println(u)
 }
+
+type User struct {
+  Name      string
+  Age       int
+}
+
+func queryUser(uid int) (User, error) {
+  userDB := make(map[int]User)
+  userDB[0] = User{"Dennis", 70}
+  userDB[0] = User{"Ken", 80}
+  userDB[0] = User{"Jack", 90}
+  userDB[0] = User{"Loy", 60}
+  if u, ok := userDB[uid]; ok {
+    return u, nil
+  }
+  return User{}, fmt.Errorf("id %d not in user db", uid)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

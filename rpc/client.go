@@ -65,6 +65,7 @@ func (c *Client) CallRPC(rpcName string, fPtr interface{}) {
     return outArgs
   }  // END f
 
+  // 这个是客户端本地函数 的一个反射， 跟服务端无关
   v := reflect.MakeFunc(fn.Type(), f)
   fn.Set(v)
 }
