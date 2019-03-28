@@ -22,5 +22,7 @@ func TestRPC(t *testing.T) {
   cli := rpc.NewClient(conn)
 
   var query func(int) (User, error)
+  // CallRPC的作用就是把服务端的 queryUser 这个函数的实现， 重写进客户端的 query 这个函数的实现
+  // 等于是把 服务端的函数代码 替换了 客户端的函数代码， 所以本身实际执行这个函数的逻辑是在客户端的
   cli.CallRPC("queryUser", &query)
 }
