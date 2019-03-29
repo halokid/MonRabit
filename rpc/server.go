@@ -5,6 +5,7 @@ package rpc
 
 import (
   "fmt"
+  "log"
   "net"
   "reflect"
 
@@ -63,6 +64,7 @@ func (s *Server) Run() {
 
     // packing data return to client
     respRPCData := RPCData{rpcData.Name, outArgs}
+    log.Println(respRPCData)
     respBytes, err := encode(respRPCData)
     CheckErr(err)
 

@@ -29,7 +29,8 @@ func TestRPC(t *testing.T) {
   var query func(int) (User, error)
   cli.CallRPC("queryUser", &query)
 
-  u, err := query(1)
+  u, err := query(5)
+  //u, err := query(3)
   if err != nil {
     t.Fatal(err)
   }
@@ -41,16 +42,27 @@ type User struct {
   Age       int
 }
 
-func queryUser(uid int) (User, error) {
+func queryUser(uid int) (User, interface{}) {
   userDB := make(map[int]User)
   userDB[0] = User{"Dennis", 70}
-  userDB[0] = User{"Ken", 80}
-  userDB[0] = User{"Jack", 90}
-  userDB[0] = User{"Loy", 60}
+  userDB[1] = User{"Ken", 80}
+  userDB[2] = User{"Jack", 90}
+  userDB[3] = User{"Loy", 60}
   if u, ok := userDB[uid]; ok {
     return u, nil
   }
-  return User{}, fmt.Errorf("id %d not in user db", uid)
+  //return User{}, fmt.Errorf("id %d not in user db", uid)
+  //var x interface{}
+  //x = "error fail"
+  //x = 0
+
+  strS := []string{"test1", "test2"}
+  newSi := make([]interface{}, len(strS))
+  for i, v := range strS {
+    newSi[i] = v
+  }
+
+  return User{}, newSi[0]
 }
 
 
