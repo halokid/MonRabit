@@ -29,8 +29,8 @@ func TestRPC(t *testing.T) {
   var query func(int) (User, error)
   cli.CallRPC("queryUser", &query)
 
-  u, err := query(5)
-  //u, err := query(3)
+  //u, err := query(5)
+  u, err := query(3)
   if err != nil {
     t.Fatal(err)
   }
@@ -52,29 +52,17 @@ func queryUser(uid int) (User, interface{}) {
     return u, nil
   }
   //return User{}, fmt.Errorf("id %d not in user db", uid)
-  //var x interface{}
-  //x = "error fail"
-  //x = 0
+  var x interface{}
+  x = "user uid not found...[ERROR]"
+  return User{}, x
 
-  strS := []string{"test1", "test2"}
-  newSi := make([]interface{}, len(strS))
-  for i, v := range strS {
-    newSi[i] = v
-  }
-
-  return User{}, newSi[0]
+  //strS := []string{"test1", "test2"}
+  //newSi := make([]interface{}, len(strS))
+  //for i, v := range strS {
+  //  newSi[i] = v
+  //}
+  //return User{}, newSi[0]
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
