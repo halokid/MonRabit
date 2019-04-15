@@ -2,11 +2,14 @@ package utils
 
 import (
   "github.com/Unknwon/goconfig"
+  //"github.com/r00tjimmy/MonRabit/worker"
   "log"
   "os"
 )
 
 var Cfg *goconfig.ConfigFile
+
+//var JobGlob *worker.Job
 
 func init()  {
   goPath := os.Getenv("GOPATH")

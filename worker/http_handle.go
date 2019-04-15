@@ -10,6 +10,7 @@ import (
 
 var httpRouter []HttpRouter
 
+
 // init http router
 func init()  {
   httpRouterSample := HttpRouter{"/monrabit", HttpHandle}
@@ -18,6 +19,7 @@ func init()  {
 
   httpRouter = append(httpRouter, httpRouterSample, httpRouterDtUpl, httpRouterFrUpl)
   httpRouter = append(httpRouter, plugins.HttpHldPlgs...)
+  //plugins.HttpPluApter{}
 }
 
 
