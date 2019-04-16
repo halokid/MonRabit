@@ -2,14 +2,15 @@ package worker
 
 import (
   "fmt"
-  "github.com/r00tjimmy/MonRabit/handler"
+  //"github.com/r00tjimmy/MonRabit/handler"
+  . "github.com/r00tjimmy/MonRabit/job"
 )
 
-type Job struct {
-  payLoad    PayLoad
-}
-
-type PayLoad int
+//type Job struct {
+//  payLoad    PayLoad
+//}
+//
+//type PayLoad int
 
 /**
 func (p PayLoad) Do() (err error) {
@@ -19,11 +20,11 @@ func (p PayLoad) Do() (err error) {
 }
 **/
 
-func (p PayLoad) HttpDo() (err error) {
-  handler.HttpProcess()
-  err = nil
-  return err
-}
+//func (p PayLoad) HttpDo() (err error) {
+//  handler.HttpProcess()
+//  err = nil
+//  return err
+//}
 
 type Worker struct {
   workPool       chan chan Job
@@ -34,7 +35,7 @@ type Worker struct {
 
 
 // set the job queue for request, one job every time
-var JobQueue chan Job
+//var JobQueue chan Job
 func init() {
  // 每一个job定义一个队列位置， 初始化JobQueue的长度
  // init JobQueue len
@@ -59,7 +60,7 @@ func (w *Worker) Start() {
       select {
       case job := <- w.jobChannel:
         if w.handleType == "http" {
-          if err := job.payLoad.HttpDo(); err != nil {
+          if err := job.HttpDo(); err != nil {
             fmt.Println("[ERROR]---- payload Do() ", err.Error())
           }
         }

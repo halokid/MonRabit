@@ -4,6 +4,7 @@ import (
   . "github.com/r00tjimmy/MonRabit/handler"
   "github.com/r00tjimmy/MonRabit/plugins"
   "github.com/r00tjimmy/MonRabit/utils"
+  . "github.com/r00tjimmy/MonRabit/job"
   "net/http"
 )
 
@@ -13,9 +14,9 @@ var httpRouter []HttpRouter
 
 // init http router
 func init()  {
-  httpRouterSample := HttpRouter{"/monrabit", HttpHandle}
-  httpRouterDtUpl := HttpRouter{"/datetime_upload", HttpDtUpload}
-  httpRouterFrUpl := HttpRouter{"/frontend_upload", HttpFrontUpload}
+  httpRouterSample := HttpRouter{"/monrabit", HttpHandle, nil}
+  httpRouterDtUpl := HttpRouter{"/datetime_upload", HttpDtUpload, nil}
+  httpRouterFrUpl := HttpRouter{"/frontend_upload", HttpFrontUpload, nil}
 
   httpRouter = append(httpRouter, httpRouterSample, httpRouterDtUpl, httpRouterFrUpl)
   httpRouter = append(httpRouter, plugins.HttpHldPlgs...)
@@ -30,7 +31,7 @@ func HttpHandle(w http.ResponseWriter, r *http.Request) {
   utils.DebugLog("[JOB] --------- HTTP handle start -------- ")
   // if no error
   getJob := 1
-  job := Job{payLoad: PayLoad(getJob) }
+  job := Job{PayLoad: PayLoad(getJob), IsPlugin: false, BgHldFunc: HttpBackendSample}
   utils.DebugLog("put --- 1 --- job into job_queue, job_queue only get one job every time ")
   JobQueue <- job
 

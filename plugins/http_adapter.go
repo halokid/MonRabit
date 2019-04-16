@@ -12,15 +12,15 @@ type HttpPluApter struct {
 
 }
 
-func (hpa *HttpPluApter) Add(routePath string, hldFunc func(http.ResponseWriter, *http.Request)) error {
-  newRoute := HttpRouter{RoutePath: routePath, Handler: hldFunc}
+func (hpa *HttpPluApter) Add(routePath string, FrHldFunc func(http.ResponseWriter, *http.Request), BgHldFunc func() ) error {
+  newRoute := HttpRouter{RoutePath: routePath, FrHandler: FrHldFunc, BgHandler: BgHldFunc}
   HttpHldPlgs = append(HttpHldPlgs, newRoute)
   return nil
 }
 
 func init()  {
   hpa := &HttpPluApter{}
-  err := hpa.Add("/http_plugin_sample", HttpPluSampleFrt)
+  err := hpa.Add("/http_plugin_sample", HttpPluSampleFrt, HttpPluSampleBak)
   utils.CheckErr(err)
 }
 

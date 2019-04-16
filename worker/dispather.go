@@ -1,6 +1,9 @@
 package worker
 
-import "fmt"
+import (
+  "fmt"
+  . "github.com/r00tjimmy/MonRabit/job"
+)
 
 type Dispatcher struct {
   workPool     chan chan Job

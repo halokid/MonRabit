@@ -4,6 +4,7 @@ import (
   "github.com/r00tjimmy/MonRabit/utils"
   //"fmt"
   "net/http"
+  . "github.com/r00tjimmy/MonRabit/job"
 )
 
 type Request struct {
@@ -14,7 +15,7 @@ type Request struct {
 
 // make the jobs, len is max_job
 func NewRequest(maxJob int, handleType string) *Request {
-  job := Job{payLoad:  PayLoad(maxJob)}
+  job := Job{PayLoad:  PayLoad(maxJob)}
   return &Request{job:  job, handleType: handleType}
 }
 
@@ -44,7 +45,8 @@ func (r *Request) Run() {
 func (r *Request) SetHandle() {
   if r.handleType == "http" {
     for _, val := range httpRouter {
-      http.HandleFunc(val.RoutePath, val.Handler)
+      // put job in  JobQueue in frontend
+      http.HandleFunc(val.RoutePath, val.FrHandler)
     }
     err := http.ListenAndServe(":8089", nil)
     utils.CheckErr(err)

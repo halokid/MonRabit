@@ -29,7 +29,7 @@ func CheckErr(err error, msg ...string) {
 /**
 only debug info, output debug info & save log file
  */
-func DebugLog(content string) {
+func DebugLog(content ...interface{}) {
   //DebugFlag, err := Cfg.GetValue("comm", "DebugFlag")
   //CheckErr(err)
   DebugFlag := Cfg.MustBool("comm", "DebugFlag")
@@ -41,7 +41,14 @@ func DebugLog(content string) {
   if LogFlag {
     logFileHandle, err := os.OpenFile(LogFile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0777)
     CheckErr(err)
-    _, _ = logFileHandle.WriteString(content + "\n\n")
+    //_, _ = logFileHandle.WriteString(content.(string))
+    //bcon := []byte(content)
+    //_, _ = logFileHandle.Write(content.([]byte))
+    sc := ""
+    for _, v := range content {
+      sc += v.(string)
+    }
+    _, _ = logFileHandle.Write([]byte(sc))
   }
 }
 
