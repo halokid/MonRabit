@@ -1,10 +1,5 @@
 package Job
 
-import (
-  //"fmt"
-  "github.com/r00tjimmy/MonRabit/utils"
-)
-
 type PayLoad int
 
 type Job struct {
@@ -43,10 +38,11 @@ func (j Job) HttpDo() (err error) {
 **/
 
 func (j Job) HttpDo() (err error) {
-   _ = j.BgHldFunc
+  j.BgHldFunc()
+   //_ = j.BgHldFunc
    //fmt.Printf("%v\n", j.BgHldFunc)
-   utils.DebugLog("%v\n", j.BgHldFunc)
-   callFunc(j.BgHldFunc)
+   //utils.DebugLog("%v\n", j.BgHldFunc)
+   //callFunc(j.BgHldFunc)
    return nil
 }
 
